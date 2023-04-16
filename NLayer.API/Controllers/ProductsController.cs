@@ -11,13 +11,22 @@ namespace NLayer.API.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IService<Product> _service;
+        private readonly IProductServis _productServis;
 
-        public ProductsController(IService<Product> service, IMapper mapper)
+        public ProductsController(IService<Product> service, IMapper mapper, IProductServis productServis)
         {
             _mapper = mapper;
             _service = service;
+            _productServis = productServis;
         }
-
+        // [action] : metotun ismini temsil eder
+        // GET api/products/GetProductsWithCategory
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetProductsWithCategory()
+        {
+            return CreateActionResult(await _productServis.GetProductWithCategories());
+        }
+        //  /api/product
         [HttpGet]
         public async Task<IActionResult> All()
         {
