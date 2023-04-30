@@ -4,27 +4,26 @@ using Microsoft.AspNetCore.Mvc;
 using NLayer.Core.DTOs;
 using NLayer.Core.Models;
 using NLayer.Core.Services;
+using NLayer.Service.Services;
 
 namespace NLayer.API.Controllers
 {
     public class ProductsController : CustomBaseController
     {
         private readonly IMapper _mapper;
-        private readonly IService<Product> _service;
-        private readonly IProductServis _productServis;
+        private readonly IProductServis _service;
 
         public ProductsController(IService<Product> service, IMapper mapper, IProductServis productServis)
         {
             _mapper = mapper;
-            _service = service;
-            _productServis = productServis;
+            _service = productServis;
         }
         // [action] : metotun ismini temsil eder
         // GET api/products/GetProductsWithCategory
         [HttpGet("[action]")]
         public async Task<IActionResult> GetProductsWithCategory()
         {
-            return CreateActionResult(await _productServis.GetProductWithCategories());
+            return CreateActionResult(await _service.GetProductWithCategories());
         }
         //  /api/product
         [HttpGet]
